@@ -13,4 +13,4 @@ def get_first_{{ name }}(filter: Callable[[{{ name_camel }}], bool]) -> {{ name_
 
 
 def get_{{ name }}s() -> List[{{ name_camel }}]:
-    return get_all_{{ name }}_by_filter(lambda x: True)
+    return get_{{ name }}s(lambda x: True)
