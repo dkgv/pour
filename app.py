@@ -37,14 +37,14 @@ def poetry_init() -> None:
     write(b"\n")
     p.wait()
 
-    poetry("add", "flask").wait()
-    click.echo("\t✅ Added Flask")
+    def add_package(package: str) -> None:
+        poetry("add", package).wait()
+        click.echo(f"\t✅ Added {package}")
 
-    poetry("add", "Flask-SQLAlchemy").wait()
-    click.echo("\t✅ Added Flask-SQLAlchemy")
-
-    poetry("add", "python-dotenv").wait()
-    click.echo("\t✅ Added python-dotenv")
+    add_package("flask")
+    add_package("Flask-SQLAlchemy")
+    add_package("python-dotenv")
+    add_package("gunicorn")
 
     poetry("add", "--group", "dev", "black").wait()
     click.echo("\t✅ Added black")
