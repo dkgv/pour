@@ -1,5 +1,6 @@
 import os
 import re
+import platform
 import subprocess
 from typing import List
 
@@ -83,7 +84,7 @@ def scaffold_app(name: str) -> None:
 
             with open(os.path.join(destination_dir, file), "w") as f:
                 template = jinja2.Template(contents)
-                contents = template.render(name=name)
+                contents = template.render(name=name, python_version=platform.python_version())
 
                 f.write(contents)
                 click.echo(f"\t✅ {file}")
