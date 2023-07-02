@@ -1,6 +1,6 @@
 import os
-import re
 import platform
+import re
 import subprocess
 from typing import List
 
@@ -84,7 +84,9 @@ def scaffold_app(name: str) -> None:
 
             with open(os.path.join(destination_dir, file), "w") as f:
                 template = jinja2.Template(contents)
-                contents = template.render(name=name, python_version=platform.python_version())
+                contents = template.render(
+                    name=name, python_version=platform.python_version()
+                )
 
                 f.write(contents)
                 click.echo(f"\t✅ {file}")
@@ -216,9 +218,12 @@ def cli():
     pass
 
 
-cli.add_command(fresh)
-cli.add_command(slice)
-cli.add_command(ingredient)
+def main():
+    cli.add_command(fresh)
+    cli.add_command(slice)
+    cli.add_command(ingredient)
+    cli()
+
 
 if __name__ == "__main__":
-    cli()
+    main()
