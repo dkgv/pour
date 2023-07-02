@@ -137,7 +137,6 @@ def scaffold_ingredient(slice: str, ingredient: str, cols: List[str]) -> None:
     camel_case_ingredient = "".join(
         [word.capitalize() for word in ingredient.split("_")]
     )
-
     hint_to_type = {
         "int": "Integer",
         "float": "Float",
@@ -145,49 +144,47 @@ def scaffold_ingredient(slice: str, ingredient: str, cols: List[str]) -> None:
         "bool": "Boolean",
         "datetime": "DateTime",
     }
-    mapped_cols = []
-    for col in cols:
-        name, type = col.split(":")
-        mapped_cols.append((name, hint_to_type[type]))
+    mapped_cols = [
+        (name, hint_to_type[type]) for col in cols for name, type in [col.split(":")]
+    ]
 
     templates = os.path.abspath("../template/ingredient")
-    with open(os.path.join(templates, "model.py"), "r") as f:
-        contents: str = f.read()
 
-    path: str = os.path.join(os.getcwd(), "app/features", slice)
-    with open(os.path.join(path, "models", f"{ingredient}.py"), "w") as f:
-        template = jinja2.Template(contents)
+    def write_file(template_name: str, output_name: str, **kwargs):
+        with open(os.path.join(templates, template_name), "r") as f:
+            contents: str = f.read()
 
-        contents = template.render(
-            name=ingredient,
-            name_camel=camel_case_ingredient,
-            cols=mapped_cols,
-        )
+        path: str = os.path.join(os.getcwd(), "app/features", slice)
+        with open(os.path.join(path, output_name), "w") as f:
+            template = jinja2.Template(contents)
 
-        f.write(contents)
-        click.echo(f"\t✅ {ingredient}.py")
+            contents = template.render(**kwargs)
 
-    with open(os.path.join(templates, "route.py"), "r") as f:
-        contents: str = f.read()
+            f.write(contents)
+            click.echo(f"\t✅ {output_name}")
 
-    with open(os.path.join(path, "routes", f"{ingredient}.py"), "w") as f:
-        template = jinja2.Template(contents)
-        contents = template.render(feature=slice, name=ingredient)
+    write_file(
+        "model.py",
+        os.path.join("models", f"{ingredient}.py"),
+        name=ingredient,
+        name_camel=camel_case_ingredient,
+        cols=mapped_cols,
+    )
 
-        f.write(contents)
-        click.echo(f"\t✅ {ingredient}.py")
+    write_file(
+        "route.py",
+        os.path.join("routes", f"{ingredient}.py"),
+        feature=slice,
+        name=ingredient,
+    )
 
-    with open(os.path.join(templates, "service.py"), "r") as f:
-        contents: str = f.read()
-
-    with open(os.path.join(path, "domain", f"{ingredient}_service.py"), "w") as f:
-        template = jinja2.Template(contents)
-        contents = template.render(
-            feature=slice, name=ingredient, name_camel=camel_case_ingredient
-        )
-
-        f.write(contents)
-        click.echo(f"\t✅ {ingredient}_service.py")
+    write_file(
+        "service.py",
+        os.path.join("domain", f"{ingredient}_service.py"),
+        feature=slice,
+        name=ingredient,
+        name_camel=camel_case_ingredient,
+    )
 
 
 @click.command()
