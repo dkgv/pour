@@ -46,6 +46,7 @@ def poetry_init() -> None:
     add_package("Flask-SQLAlchemy")
     add_package("python-dotenv")
     add_package("gunicorn")
+    add_package("psycopg2")
 
     poetry("add", "--group", "dev", "black").wait()
     click.echo("\t✅ Added black")
