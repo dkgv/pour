@@ -53,6 +53,10 @@ def poetry_init() -> None:
 
     poetry("install").wait()
     click.echo("\t✅ Resolved dependencies")
+
+    click.echo("Initializing git repository...")
+    subprocess.Popen(["git", "init"], stdout=subprocess.DEVNULL).wait()
+
     click.echo("")
 
 
