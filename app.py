@@ -155,7 +155,9 @@ def scaffold_ingredient(slice: str, ingredient: str, cols: List[str]) -> None:
         "datetime": "DateTime",
     }
     mapped_cols = [
-        (name, hint_to_type[type]) for col in cols for name, type in [col.split(":")]
+        (name, hint_to_type[type] if type in hint_to_type else type)
+        for col in cols
+        for name, type in [col.split(":")]
     ]
 
     templates = os.path.abspath("../template/ingredient")

@@ -51,4 +51,6 @@ This creates three directories within the features directory:
 pour ingredient <ingredient> <feature> --col <column_name1>:<column_type> --col <column_name2>:<column_type>
 ```
 
-This scaffolds a model, a controller, and a template that may be used for domain logic.
+This creates a database migration for the specified model, a controller, and a template for domain logic. The model includes `id`, `created_at`, and `updated_at` columns by default.
+
+Shorthand Python syntax can be used for the following column data types: `int`, `float`, `str`, `bool`, and `datetime`. All other data types must follow the naming specified by SQLAlchemy [here](https://docs.sqlalchemy.org/en/20/core/types.html).
