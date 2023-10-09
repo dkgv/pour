@@ -7,7 +7,7 @@ pour is an exceedingly simple, opinionated scaffolding tool for Flask 🍾
 ### Creating an app
 
 ```bash
-pour fresh <app>
+pour new <app>
 ```
 
 This will initialize a new app with the following structure:

@@ -99,7 +99,7 @@ def scaffold_app(name: str) -> None:
 
 @click.command()
 @click.argument("name")
-def fresh(name: str) -> None:
+def new(name: str) -> None:
     if not re.match(r"^[a-zA-Z0-9_]+$", name):
         raise click.BadParameter(
             "Name must be a valid Python module name. Please use only letters, numbers, and underscores."
@@ -221,7 +221,7 @@ def cli():
 
 
 def main():
-    cli.add_command(fresh)
+    cli.add_command(new)
     cli.add_command(slice)
     cli.add_command(ingredient)
     cli()
