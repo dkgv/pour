@@ -196,6 +196,10 @@ def scaffold_ingredient(slice: str, ingredient: str, cols: List[str]) -> None:
         name_camel=camel_case_ingredient,
     )
 
+    subprocess.Popen(
+        ["flask", "db", "migrate", "-m", f"create {ingredient}"],
+    ).wait()
+
 
 @click.command()
 @click.argument("ingredient")

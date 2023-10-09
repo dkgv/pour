@@ -8,3 +8,4 @@ bp = Blueprint("{{ name }}", __name__)
 @bp.get("/{{ name }}s")
 def get_{{ name }}s():
     return {{ name }}_service.get_{{ name }}s()
+
