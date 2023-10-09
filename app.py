@@ -18,11 +18,14 @@ def poetry(command: str, *args: str) -> subprocess.Popen:
 
 
 def poetry_init() -> None:
-    click.echo("⏳ Configuring project...")
+    click.echo("⏳ Resolving dependencies")
 
     p: subprocess.Popen = poetry("init")
 
-    def write(s: str) -> None:
+    def write(s: bytes) -> None:
+        if not p.stdin:
+            raise Exception("No stdin, cannot initialize project")
+
         p.stdin.write(s)
         p.stdin.flush()
 
@@ -40,21 +43,21 @@ def poetry_init() -> None:
 
     def add_package(package: str) -> None:
         poetry("add", package).wait()
-        click.echo(f"\t✅ Added {package}")
+        click.echo(f"\t✅ Installed `{package}`")
 
     add_package("flask")
     add_package("Flask-SQLAlchemy")
+    add_package("Flask-Migrate")
     add_package("python-dotenv")
     add_package("gunicorn")
     add_package("psycopg2")
 
     poetry("add", "--group", "dev", "black").wait()
-    click.echo("\t✅ Added black")
+    click.echo("\t✅ Installed `black`\n")
 
     poetry("install").wait()
-    click.echo("\t✅ Resolved dependencies")
 
-    click.echo("Initializing git repository...")
+    click.echo("⏳ Initializing git repository")
     subprocess.Popen(["git", "init"], stdout=subprocess.DEVNULL).wait()
 
     click.echo("")
@@ -75,7 +78,7 @@ def scaffold_app(name: str) -> None:
 
     poetry_init()
 
-    click.echo("⏳ Scaffolding app...")
+    click.echo("⏳ Scaffolding app")
 
     templates = "../template/app"
     for root, dirs, files in os.walk(templates):
@@ -95,6 +98,8 @@ def scaffold_app(name: str) -> None:
 
                 f.write(contents)
                 click.echo(f"\t✅ {file}")
+
+    click.echo("")
 
 
 @click.command()

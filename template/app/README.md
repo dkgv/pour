@@ -10,8 +10,15 @@ Run the development server:
 python wsgi.py
 ```
 
-Manage dependencies using `poetry`:
+Manage dependencies with `poetry`:
 
 ```bash
 poetry add <package>
 ```
+
+Generate database migrations with `alembic` through `Flask-Migrate`:
+```bash
+flask db migrate -m "message"
+```
+
+These are automatically applied when running your app.

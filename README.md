@@ -10,7 +10,7 @@ pour is an exceedingly simple, opinionated scaffolding tool for Flask 🍾
 pour new <app>
 ```
 
-This will initialize a new app with the following structure:
+This initializes a new app with the following structure:
 
 ```
 <app>/
@@ -31,7 +31,7 @@ This will initialize a new app with the following structure:
 pour slice <name>
 ```
 
-This will create three directories within the features directory:
+This creates three directories within the features directory:
 
 ```
 <app>/
@@ -51,4 +51,4 @@ This will create three directories within the features directory:
 pour ingredient <ingredient> <feature> --col <column_name1>:<column_type> --col <column_name2>:<column_type>
 ```
 
-This will scaffold a model, a controller, and a template that may be used for domain logic.
+This scaffolds a model, a controller, and a template that may be used for domain logic.

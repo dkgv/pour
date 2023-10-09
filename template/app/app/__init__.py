@@ -17,6 +17,6 @@ def create_app() -> Flask:
 
         from app.database import automigrate
 
-        automigrate()
+        automigrate(app)
 
         return app
